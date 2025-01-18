@@ -1,0 +1,341 @@
+{
+  "/home/manuelito/workspace/python-tests/serverless-forte/forte-api": {
+    "versionSfCore": null,
+    "versionFramework": "4.4.19",
+    "isWithinCompose": false,
+    "isCompose": false,
+    "composeOrgName": null,
+    "composeResolverProviders": {
+      "default-aws-credential-resolver": "<REDACTED>",
+      "sls": {
+        "instance": {
+          "credentials": "<REDACTED>",
+          "serviceConfigFile": {
+            "org": "ortaman",
+            "service": "forte-api",
+            "custom": {
+              "wsgi": {
+                "app": "app.app"
+              }
+            },
+            "provider": {
+              "name": "aws",
+              "runtime": "python3.12",
+              "region": "us-east-1",
+              "stage": "dev",
+              "versionFunctions": true
+            },
+            "functions": {
+              "crud": {
+                "handler": "wsgi_handler.handler",
+                "events": [
+                  {
+                    "http": {
+                      "path": "/",
+                      "method": "ANY"
+                    }
+                  },
+                  {
+                    "http": {
+                      "path": "/{proxy+}",
+                      "method": "ANY"
+                    }
+                  }
+                ],
+                "environment": {
+                  "MONGO_NAME": "forte-db",
+                  "MONGO_USER": "admin",
+                  "MONGO_PASS": "admin123",
+                  "MONGO_COLLECT_NAME": "transactions",
+                  "MONGO_HOSTNAME": "localhost",
+                  "MONGO_URL": "mongodb://admin:admin123@localhost:27017"
+                },
+                "name": "forte-api-dev-crud"
+              }
+            },
+            "plugins": [
+              "serverless-wsgi",
+              "serverless-python-requirements"
+            ]
+          },
+          "configFileDirPath": "/home/manuelito/workspace/python-tests/serverless-forte/forte-api",
+          "config": {
+            "type": "sls"
+          },
+          "options": {},
+          "stage": "dev",
+          "dashboard": null,
+          "logger": {
+            "namespace": "s:core:resolver:sls",
+            "prefix": null,
+            "prefixColor": null
+          },
+          "_credentialsPromise": "<REDACTED>"
+        },
+        "resolvers": {}
+      }
+    },
+    "composeServiceName": null,
+    "servicePath": "/home/manuelito/workspace/python-tests/serverless-forte/forte-api",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "org": "ortaman",
+      "service": "forte-api",
+      "custom": {
+        "wsgi": {
+          "app": "app.app"
+        }
+      },
+      "provider": {
+        "name": "aws",
+        "runtime": "python3.12",
+        "region": "us-east-1",
+        "stage": "dev",
+        "versionFunctions": true
+      },
+      "functions": {
+        "crud": {
+          "handler": "wsgi_handler.handler",
+          "events": [
+            {
+              "http": {
+                "path": "/",
+                "method": "ANY"
+              }
+            },
+            {
+              "http": {
+                "path": "/{proxy+}",
+                "method": "ANY"
+              }
+            }
+          ],
+          "environment": {
+            "MONGO_NAME": "forte-db",
+            "MONGO_USER": "admin",
+            "MONGO_PASS": "admin123",
+            "MONGO_COLLECT_NAME": "transactions",
+            "MONGO_HOSTNAME": "localhost",
+            "MONGO_URL": "mongodb://admin:admin123@localhost:27017"
+          },
+          "name": "forte-api-dev-crud"
+        }
+      },
+      "plugins": [
+        "serverless-wsgi",
+        "serverless-python-requirements"
+      ]
+    },
+    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\norg: ortaman\n# \"service\" is the name of this project. This will also be added to your AWS resource names.\nservice: forte-api\n\ncustom:\n  wsgi:\n    app: app.app\n\nprovider:\n  name: aws\n  runtime: python3.12\n  region: us-east-1\n\nfunctions:\n  crud:\n    handler: wsgi_handler.handler\n    events:\n      - http:\n          path: /\n          method: ANY\n      - http:\n          path: /{proxy+}\n          method: ANY\n\n    environment:\n      MONGO_NAME: forte-db\n      MONGO_USER: admin\n      MONGO_PASS: admin123\n      MONGO_COLLECT_NAME: transactions\n      MONGO_HOSTNAME: localhost\n      MONGO_URL: \"mongodb://admin:admin123@localhost:27017\"\n \nplugins:\n  - serverless-wsgi\n  - serverless-python-requirements\n ",
+    "command": [
+      "wsgi",
+      "serve"
+    ],
+    "options": {},
+    "error": null,
+    "params": {},
+    "machineId": "b39ae352cce2993b22f4b973bba08c03",
+    "stage": "dev",
+    "accessKeyV2": "<REDACTED>",
+    "accessKeyV1": "<REDACTED>",
+    "orgId": "c3590622-7afa-4eee-a0f9-90e7033c44bc",
+    "orgName": "ortaman",
+    "userId": "9F4wZLJg92Wkyyd62c",
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "userName": "ortaman",
+    "subscription": null,
+    "userEmail": "ente011@gmail.com",
+    "serviceProviderAwsRegion": "us-east-1",
+    "serviceProviderAwsCredentials": "<REDACTED>",
+    "serviceProviderAwsAccountId": "248189906913",
+    "projectType": "traditional",
+    "versionSf": "4.4.19",
+    "serviceProviderAwsCfStackName": "forte-api-dev",
+    "integrations": {},
+    "serviceUniqueId": null,
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:248189906913:stack/aws-sam-cli-managed-default/ec6f22f0-a7cf-11ef-9178-123010650911",
+    "serviceProviderAwsCfStackCreated": "2024-11-21T06:14:53.901Z",
+    "serviceProviderAwsCfStackUpdated": "2024-11-21T06:15:10.129Z",
+    "serviceProviderAwsCfStackStatus": "CREATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "SourceBucket",
+        "OutputValue": "aws-sam-cli-managed-default-samclisourcebucket-f42ewzc8czk0"
+      }
+    ]
+  },
+  "/home/manuelito/workspace/python-tests/serverless-forte/forte-app": {
+    "versionSfCore": null,
+    "versionFramework": "4.4.19",
+    "isWithinCompose": false,
+    "isCompose": false,
+    "composeOrgName": null,
+    "composeResolverProviders": {
+      "default-aws-credential-resolver": "<REDACTED>",
+      "sls": {
+        "instance": {
+          "credentials": "<REDACTED>",
+          "serviceConfigFile": {
+            "org": "ortaman",
+            "service": "forte-api",
+            "custom": {
+              "wsgi": {
+                "app": "forte-api/app.app"
+              }
+            },
+            "provider": {
+              "name": "aws",
+              "runtime": "python3.12",
+              "region": "us-east-1",
+              "stage": "dev",
+              "versionFunctions": true
+            },
+            "functions": {
+              "crud": {
+                "handler": "wsgi_handler.handler",
+                "events": [
+                  {
+                    "http": {
+                      "path": "/",
+                      "method": "ANY"
+                    }
+                  },
+                  {
+                    "http": {
+                      "path": "/{proxy+}",
+                      "method": "ANY"
+                    }
+                  }
+                ],
+                "environment": {
+                  "MONGO_NAME": "forte-db",
+                  "MONGO_USER": "admin",
+                  "MONGO_PASS": "admin123",
+                  "MONGO_COLLECT_NAME": "transactions",
+                  "MONGO_HOST": "localhost"
+                },
+                "name": "forte-api-dev-crud"
+              }
+            },
+            "plugins": [
+              "serverless-wsgi",
+              "serverless-python-requirements"
+            ]
+          },
+          "configFileDirPath": "/home/manuelito/workspace/python-tests/serverless-forte/forte-app",
+          "config": {
+            "type": "sls"
+          },
+          "options": {},
+          "stage": "dev",
+          "dashboard": null,
+          "logger": {
+            "namespace": "s:core:resolver:sls",
+            "prefix": null,
+            "prefixColor": null
+          },
+          "_credentialsPromise": "<REDACTED>"
+        },
+        "resolvers": {}
+      }
+    },
+    "composeServiceName": null,
+    "servicePath": "/home/manuelito/workspace/python-tests/serverless-forte/forte-app",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "org": "ortaman",
+      "service": "forte-api",
+      "custom": {
+        "wsgi": {
+          "app": "forte-api/app.app"
+        }
+      },
+      "provider": {
+        "name": "aws",
+        "runtime": "python3.12",
+        "region": "us-east-1",
+        "stage": "dev",
+        "versionFunctions": true
+      },
+      "functions": {
+        "crud": {
+          "handler": "wsgi_handler.handler",
+          "events": [
+            {
+              "http": {
+                "path": "/",
+                "method": "ANY"
+              }
+            },
+            {
+              "http": {
+                "path": "/{proxy+}",
+                "method": "ANY"
+              }
+            }
+          ],
+          "environment": {
+            "MONGO_NAME": "forte-db",
+            "MONGO_USER": "admin",
+            "MONGO_PASS": "admin123",
+            "MONGO_COLLECT_NAME": "transactions",
+            "MONGO_HOST": "localhost"
+          },
+          "name": "forte-api-dev-crud"
+        }
+      },
+      "plugins": [
+        "serverless-wsgi",
+        "serverless-python-requirements"
+      ]
+    },
+    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\norg: ortaman\n# \"service\" is the name of this project. This will also be added to your AWS resource names.\nservice: forte-api\n\ncustom:\n  wsgi:\n    app: forte-api/app.app\n\nprovider:\n  name: aws\n  runtime: python3.12\n  region: us-east-1\n\nfunctions:\n  crud:\n    handler: wsgi_handler.handler\n    events:\n      - http:\n          path: /\n          method: ANY\n      - http:\n          path: /{proxy+}\n          method: ANY\n\n    environment:\n      MONGO_NAME: forte-db\n      MONGO_USER: admin\n      MONGO_PASS: admin123\n      MONGO_COLLECT_NAME: transactions\n      MONGO_HOST: localhost\n \nplugins:\n  - serverless-wsgi\n  - serverless-python-requirements\n ",
+    "command": [
+      "wsgi",
+      "serve"
+    ],
+    "options": {},
+    "error": null,
+    "params": {},
+    "machineId": "b39ae352cce2993b22f4b973bba08c03",
+    "stage": "dev",
+    "accessKeyV2": "<REDACTED>",
+    "accessKeyV1": "<REDACTED>",
+    "orgId": "c3590622-7afa-4eee-a0f9-90e7033c44bc",
+    "orgName": "ortaman",
+    "userId": "9F4wZLJg92Wkyyd62c",
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "userName": "ortaman",
+    "subscription": null,
+    "userEmail": "ente011@gmail.com",
+    "serviceProviderAwsRegion": "us-east-1",
+    "serviceProviderAwsCredentials": "<REDACTED>",
+    "serviceProviderAwsAccountId": "248189906913",
+    "projectType": "traditional",
+    "versionSf": "4.4.19",
+    "serviceProviderAwsCfStackName": "forte-api-dev",
+    "integrations": {},
+    "serviceUniqueId": null,
+    "serviceProviderAwsCfStackId": null,
+    "serviceProviderAwsCfStackCreated": null,
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": null,
+    "serviceProviderAwsCfStackOutputs": null
+  }
+}
