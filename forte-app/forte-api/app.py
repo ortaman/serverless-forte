@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
-from infra import db_infra
 
+from infra import db_infra
 from adapters import db_adapters
 from repository import db_repository
 from usecases import txns_usercase
@@ -9,11 +9,11 @@ from usecases import txns_usercase
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def hello():
     response = jsonify({
         "statusCode": 200,
-        "msg": "¡HELLO FORTE!"
+        "msg": "¡Hello FORTE!"
     })
     return response
 
@@ -96,29 +96,74 @@ def get_transactions_by_customer_id(customer_id):
 
 
 @app.route("/transactions", methods=["GET"])
-def list_transactions():
+def get_all_transactions():
 
     mongo_config = db_infra.MongoConfig()
     mongodb = db_repository.MongoDb(mongo_config)
 
     tnxs_usecase = txns_usercase.TnxsUsecase(mongodb)
-    transactions = tnxs_usecase.list_transactions()
+    tnxs = tnxs_usecase.get_all_transactions()
 
     response = jsonify({
         "statusCode": 200,
-        "transactions": transactions
+        "transactions": tnxs
     })
 
     return response
 
 
-"""
-curl -X GET http://localhost:5000/transactions
-curl -X GET http://localhost:5000/transactions/bd7b69fa-9207-4996-91cd-b7eec3fce21a
 
-curl  -X POST http://localhost:5000/transaction -H "Content-Type: application/json" --DATA '{"transaction_id": "bd7b69fa-9207-4996-91cd-b7eec3fce21z", "customer_id": "bd7b69fa-9207-4996-91cd-b7eec3fce21z", "amount": 50.11,"category": "cz", "type": "income", "deactivated": false, "date": "2025-01-16T18:28:55Z"}'
+@app.route("/transactions/resume", methods=["GET"])
+def transactions_resume():
 
-curl  -X PUT http://localhost:5000/transaction/bd7b69fa-9207-4996-91cd-b7eec3fce21b -H "Content-Type: application/json" --DATA '{"amount":11.11,"category":"c3"}'
-curl  -X DELETE http://localhost:5000/transaction/bd7b69fa-9207-4996-91cd-b7eec3fce21b -H "Content-Type: application/json"
+    mongo_config = db_infra.MongoConfig()
+    mongodb = db_repository.MongoDb(mongo_config)
 
-"""
+    start_date = request.args.get("start_date")
+    end_date = request.args.get("end_date")
+
+    tnxs_usecase = txns_usercase.TnxsUsecase(mongodb)
+    resume = tnxs_usecase.get_transactions_resume(start_date, end_date)
+
+    response = jsonify({
+        "statusCode": 200,
+        "transactionsResume": resume
+    })
+
+    return response
+
+
+@app.route("/transactions/xlsx", methods=["GET"])
+def transactions_download_xlsx():
+
+    # TODO ADD REQUEST VALIDATION
+    json_request = request.get_json()
+
+    resume_by_category = json_request["transactionsResume"]["by_category"]
+    txns_by_customer = json_request["transactionsResume"]["by_customer"]
+
+    tnxs_resume_xlsx = txns_usercase.TnxsResumeXLSX()
+    xlsx_file = tnxs_resume_xlsx.get_file(resume_by_category, txns_by_customer)
+
+    return xlsx_file
+
+
+@app.route("/transactions/xlsx", methods=["POST"])
+def transactions_upload_xlsx():
+
+    if 'file' not in request.files:
+        return jsonify({
+            "statusCode": 400
+        })
+    
+    xlsx_file = request.files['file']
+
+    tnxs_resume_xlsx = txns_usercase.TnxsResumeXLSX()
+    presigned_url = tnxs_resume_xlsx.upload_file(xlsx_file, request.mimetype)
+
+    response = jsonify({
+        "statusCode": 200,
+        "presigned_url": presigned_url
+    })
+
+    return response

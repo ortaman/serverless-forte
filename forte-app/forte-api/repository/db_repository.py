@@ -1,4 +1,8 @@
-import pymongo
+import os
+
+from pymongo.errors import DuplicateKeyError
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
 
 class MongoDb:
@@ -7,10 +11,17 @@ class MongoDb:
 
         self.client = None
         self.db = None
+        self.collection = None
 
         try:
-            self.client = pymongo.MongoClient(mongo_config.URL)
+            if os.environ.get("AWS_EXECUTION_ENV"):
+                self.client = MongoClient(mongo_config.ATLAS_URI, server_api=ServerApi('1'))
+            else:
+                self.client = MongoClient(mongo_config.URL)
+
             self.db = self.client[mongo_config.MONGO_NAME]
+
+            self.collection = self.db[mongo_config.MONGO_DEFAULT_COLLECTION]  
 
         except Exception as exception:
             print(f"Error: {exception}")
@@ -27,7 +38,7 @@ class MongoDb:
             txn_id = self.collection.insert_one(data).inserted_id
             print(f"Data inserted with ID: {txn_id}")
 
-        except pymongo.errors.DuplicateKeyError as error:
+        except DuplicateKeyError as error:
             print(f"Error: {error}")
             return 0
 
@@ -42,7 +53,7 @@ class MongoDb:
         return data
 
     def fetch_all(self, query):
-        data = self.collection.find(query)
+        data = self.collection.find(query, {})
         return data
 
     def update_one(self, filter_by, data):

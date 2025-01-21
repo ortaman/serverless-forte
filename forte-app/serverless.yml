@@ -16,10 +16,10 @@ functions:
   crud:
     handler: wsgi_handler.handler
     events:
-      - http:
+      - httpApi:
           path: /
           method: ANY
-      - http:
+      - httpApi:
           path: /{proxy+}
           method: ANY
 
@@ -27,9 +27,55 @@ functions:
       MONGO_NAME: forte-db
       MONGO_USER: admin
       MONGO_PASS: admin123
-      MONGO_COLLECT_NAME: transactions
       MONGO_HOST: localhost
- 
+      MONGO_DEFAULT_COLLECTION: transactions
+      
+  txns_resume:
+    handler: wsgi_handler.handler
+    events:
+      - httpApi:
+          path: /transactions/resume
+          method: GET
+
+    environment:
+      MONGO_NAME: forte-db
+      MONGO_USER: admin
+      MONGO_PASS: admin123
+      MONGO_HOST: localhost
+      MONGO_DEFAULT_COLLECTION: transactions
+
+  txns_download_xlsx:
+    handler: wsgi_handler.handler
+    events:
+      - httpApi:
+          path: /transactions/xlsx
+          method: GET
+
+    environment:
+      MONGO_NAME: forte-db
+      MONGO_USER: admin
+      MONGO_PASS: admin123
+      MONGO_HOST: localhost
+      MONGO_DEFAULT_COLLECTION: transactions
+
+  txns_save_xlsx:
+    handler: wsgi_handler.handler
+    events:
+      - httpApi:
+          path: /transactions/xlsx
+          method: POST
+
+    environment:
+      MONGO_NAME: forte-db
+      MONGO_USER: admin
+      MONGO_PASS: admin123
+      MONGO_HOST: localhost
+      MONGO_DEFAULT_COLLECTION: transactions
+
+      S3_NAME: forte-test-bucket
+      B3_ACC: AKIATTSKFN7QZJFSSR6G
+      B3_SEC: zzQw/J8jm9f0ABWnVg60T2eLeIlKTD7mgtkQFBb1
+
 plugins:
   - serverless-wsgi
   - serverless-python-requirements
