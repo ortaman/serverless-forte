@@ -3,7 +3,7 @@ wsgi_handler.py
 
 __pycache__/
 
-serverless/
+.serverless/
 node_modules/
 
 local-db/mongodb-data/
