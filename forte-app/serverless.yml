@@ -6,11 +6,20 @@ service: forte-api
 custom:
   wsgi:
     app: forte-api/app.app
+  s3:
+    host: localhost
+    directory: ./local-s3
 
 provider:
   name: aws
   runtime: python3.12
   region: us-east-1
+  stage: dev
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "arn:aws:s3:::man-dev-bucket/*"
 
 functions:
   crud:
@@ -72,9 +81,16 @@ functions:
       MONGO_HOST: localhost
       MONGO_DEFAULT_COLLECTION: transactions
 
-      S3_NAME: forte-test-bucket
-      B3_ACC: AKIATTSKFN7QZJFSSR6G
-      B3_SEC: zzQw/J8jm9f0ABWnVg60T2eLeIlKTD7mgtkQFBb1
+      S3_NAME: man-dev-bucket
+      B3_ACC: S3RVER
+      B3_SEC: S3RVER
+
+resources:
+  Resources:
+    ManDevBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: man-dev-bucket
 
 plugins:
   - serverless-wsgi

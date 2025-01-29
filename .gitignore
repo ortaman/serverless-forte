@@ -1,5 +1,9 @@
+package-lock.json
+wsgi_handler.py
+
 __pycache__/
 
-local-db/mongodb-data/
-
 serverless/
+node_modules/
+
+local-db/mongodb-data/
