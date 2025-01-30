@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 
-from infra import db_infra
+from config import db_config
 from adapters import db_adapters
 from repository import db_repository
 from usecases import txns_usercase
@@ -21,7 +21,7 @@ def hello():
 @app.route("/transaction", methods=["POST"])
 def save_transaction():
 
-    mongo_config = db_infra.MongoConfig()
+    mongo_config = db_config.MongoConfig()
     mongodb = db_repository.MongoDb(mongo_config)
 
     # TODO ADD REQUEST VALIDATION
@@ -45,7 +45,7 @@ def save_transaction():
 @app.route("/transaction/<transaction_id>", methods=["PUT"])
 def update_transaction(transaction_id):
     
-    mongo_config = db_infra.MongoConfig()
+    mongo_config = db_config.MongoConfig()
     mongodb = db_repository.MongoDb(mongo_config)
 
     # TODO ADD REQUEST VALIDATION
@@ -64,7 +64,7 @@ def update_transaction(transaction_id):
 
 @app.route("/transaction/<transaction_id>", methods=["DELETE"])
 def deactived_transaction(transaction_id):
-    mongo_config = db_infra.MongoConfig()
+    mongo_config = db_config.MongoConfig()
     mongodb = db_repository.MongoDb(mongo_config)
 
     tnxs_usecase = txns_usercase.TnxsUsecase(mongodb)
@@ -81,7 +81,7 @@ def deactived_transaction(transaction_id):
 @app.route("/transactions/<customer_id>", methods=["GET"])
 def get_transactions_by_customer_id(customer_id):
 
-    mongo_config = db_infra.MongoConfig()
+    mongo_config = db_config.MongoConfig()
     mongodb = db_repository.MongoDb(mongo_config)
 
     tnxs_usecase = txns_usercase.TnxsUsecase(mongodb)
@@ -98,7 +98,7 @@ def get_transactions_by_customer_id(customer_id):
 @app.route("/transactions", methods=["GET"])
 def get_all_transactions():
 
-    mongo_config = db_infra.MongoConfig()
+    mongo_config = db_config.MongoConfig()
     mongodb = db_repository.MongoDb(mongo_config)
 
     tnxs_usecase = txns_usercase.TnxsUsecase(mongodb)
@@ -116,7 +116,7 @@ def get_all_transactions():
 @app.route("/transactions/resume", methods=["GET"])
 def transactions_resume():
 
-    mongo_config = db_infra.MongoConfig()
+    mongo_config = db_config.MongoConfig()
     mongodb = db_repository.MongoDb(mongo_config)
 
     start_date = request.args.get("start_date")

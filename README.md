@@ -6,7 +6,7 @@ This is a sample template for the proyect - Below is a brief explanation of the 
 .
 ├── forte-app               <-- Source code for a lambda function
 │   └── forte-api           <-- Source code for based in Serverless Clean Architecture
-│       ├── infra           <-- Infrastucture variables
+│       ├── config          <-- Configuration variables
 │       ├── adapters        <-- Lambda function code
 │       ├── usecases        <-- This layer holds the business logic of our application
 │       ├── repository      <-- This layer is responsible for communicating with data sources, whether it is Database, another services, or external APIs

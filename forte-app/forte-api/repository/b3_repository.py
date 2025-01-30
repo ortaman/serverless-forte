@@ -1,6 +1,7 @@
+import os
 import boto3
 
-from infra import db_infra
+from config import db_config
 
 
 class Boto3:
@@ -10,15 +11,21 @@ class Boto3:
 
     def __init__(self):
 
-        boto_settings = db_infra.BotoSettings
+        boto_settings = db_config.BotoSettings
 
         try:
-            self.client = boto3.client(
-                's3',
-                aws_access_key_id=boto_settings.ACC,
-                aws_secret_access_key=boto_settings.SEC
-            )
-            self.bucket_name = boto_settings.S3_NAME
+
+            if os.environ.get("AWS_EXECUTION_ENV"):
+                self.client = self.client = boto3.client('s3')
+                self.bucket_name = boto_settings.S3_DEV_NAME
+
+            else:
+                self.client = boto3.client(
+                    's3',
+                    aws_access_key_id=boto_settings.B3_LOCAL_ACC,
+                    aws_secret_access_key=boto_settings.B3_LOCAL_SEC
+                )
+                self.bucket_name = boto_settings.S3_LOCAL_NAME
 
         except Exception as exception:
             print(f"Error: {exception}")

@@ -16,6 +16,8 @@ class MongoConfig:
 
 
 class BotoSettings:
-    S3_NAME = os.environ.get('S3_NAME')
-    ACC = os.environ.get('B3_ACC')
-    SEC = os.environ.get('B3_SEC')
+    S3_DEV_NAME = os.environ.get('S3_DEV_NAME')
+    
+    S3_LOCAL_NAME = 'man-local-bucket'
+    B3_LOCAL_ACC: 'S3RVER'
+    B3_LOCAL_SEC: 'S3RVER'
